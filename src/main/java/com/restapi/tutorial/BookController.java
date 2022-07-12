@@ -1,9 +1,11 @@
 package com.restapi.tutorial;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +62,8 @@ public class BookController {
         try {
             Book b = bookServiceImpl.updateBook(id, book);
             return bookResponse.successResponse(String.format("Book with ID %s updated successfully!", id), b);
+        } catch (NoSuchElementException ex) {
+            return bookResponse.errorResponse(String.format("Book with ID %s doesn't exist!", id));
         } catch (Exception e) {
             return bookResponse.errorResponse(e.toString());
         }
@@ -70,6 +74,8 @@ public class BookController {
         try {
             bookServiceImpl.deleteById(id);
             return bookResponse.successResponse(String.format("Book with ID %s deleted successfully!", id), null);
+        } catch (EmptyResultDataAccessException ex) {
+            return bookResponse.errorResponse(String.format("Book with ID %s doesn't exist!", id));
         } catch (Exception e) {
             return bookResponse.errorResponse(e.toString());
         }
