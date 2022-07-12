@@ -1,13 +1,13 @@
 package com.restapi.tutorial;
 
-import java.util.HashSet;
+import java.util.Optional;
 
 public interface BookService {
-    HashSet<Book> findAllBook();
+    Iterable<Book> findAllBook();
 
-    Book findBookbyId(long id);
+    Optional<Book> findBookbyId(long id);
 
-    void addBook(Book b);
+    Book addBook(Book b);
 
     void deleteAllData();
 }

@@ -1,34 +1,36 @@
 package com.restapi.tutorial;
 
 import java.util.HashSet;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookServiceImpl implements BookService {
     HashSet<Book> bookList = new HashSet<Book>();
 
+    @Autowired
+    BookRepository bookRepository;
+
     @Override
-    public HashSet<Book> findAllBook() {
-        if (bookList.isEmpty())
-            return null;
-        else
-            return bookList;
+    public Iterable<Book> findAllBook() {
+        return bookRepository.findAll();
     }
 
     @Override
-    public Book findBookbyId(long id) {
-        Book book = bookList.stream().filter(b -> b.getId() == id).findAny().orElse(null);
+    public Optional<Book> findBookbyId(long id) {
+        Optional<Book> book = bookRepository.findById(id);
         return book;
     }
 
     @Override
-    public void addBook(Book b) {
-        bookList.add(b);
+    public Book addBook(Book b) {
+        return bookRepository.save(b);
     }
 
     @Override
     public void deleteAllData() {
-        bookList.clear();
+        bookRepository.deleteAll();
     }
 }

@@ -1,7 +1,7 @@
 package com.restapi.tutorial;
 
-import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +32,7 @@ public class BookController {
     @GetMapping("/api/books")
     public Map<String, Object> getAllBooks() {
         try {
-            HashSet<Book> b = bookServiceImpl.findAllBook();
+            Iterable<Book> b = bookServiceImpl.findAllBook();
             return bookResponse.successResponse("Books fetched successfully!", b);
         } catch (Exception e) {
             return bookResponse.errorResponse(e.toString());
@@ -42,10 +42,13 @@ public class BookController {
     @GetMapping("/api/book/{id}")
     public Map<String, Object> getBookbyId(@PathVariable long id) {
         try {
-            Book b = bookServiceImpl.findBookbyId(id);
-            if (b == null)
-                return bookResponse.errorResponse(String.format("No book with ID %s", id));
-            return bookResponse.successResponse("Book fetched successfully!", b);
+            Optional<Book> b = bookServiceImpl.findBookbyId(id);
+            if (b.isPresent()) {
+                return bookResponse.successResponse("Book fetched successfully!", b);
+            } else {
+                return bookResponse.errorResponse(String.format("No Book with ID %s could be found", id));
+            }
+
         } catch (Exception e) {
             return bookResponse.errorResponse(e.toString());
         }
