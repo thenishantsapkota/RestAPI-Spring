@@ -36,9 +36,15 @@ public class BookServiceImpl implements BookService {
         b1.setAuthor(b.getAuthor() == null ? b1.getAuthor() : b.getAuthor());
         b1.setName(b.getName() == null ? b1.getName() : b.getName());
         return bookRepository.save(b1);
-
     }
 
+    @Override
+    public void deleteById(long id) {
+        bookRepository.deleteById(id);
+    }
+
+    
+    
     @Override
     public void deleteAllData() {
         bookRepository.deleteAll();

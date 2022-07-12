@@ -65,6 +65,16 @@ public class BookController {
         }
     }
 
+    @DeleteMapping("/api/book/{id}")
+    public Map<String, Object> deleteBook(@PathVariable long id) {
+        try {
+            bookServiceImpl.deleteById(id);
+            return bookResponse.successResponse(String.format("Book with ID %s deleted successfully!", id), null);
+        } catch (Exception e) {
+            return bookResponse.errorResponse(e.toString());
+        }
+    }
+
     @DeleteMapping("/api/books")
     public Map<String, Object> deleteAllBooks() {
         try {
