@@ -1,5 +1,6 @@
 package com.restapi.tutorial.Users;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,7 @@ public class User {
     private long id;
     private String name;
     private Boolean isAdmin;
+    @Column(unique = true)
     private String username;
     private String password;
 
