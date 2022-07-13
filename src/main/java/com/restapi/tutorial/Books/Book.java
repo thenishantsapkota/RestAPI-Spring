@@ -1,4 +1,4 @@
-package com.restapi.tutorial;
+package com.restapi.tutorial.Books;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
